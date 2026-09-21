@@ -20,7 +20,7 @@ public class ResourceService {
     }
 
     public InputStream resourceMethod(String dialCode) {
-        String path = countryRepository.getSongPath(dialCode);
+        String path = countryRepository.getSongPath(dialCode);    
         InputStream in = getClass().getClassLoader().getResourceAsStream(path);
 
         if (in == null) {
