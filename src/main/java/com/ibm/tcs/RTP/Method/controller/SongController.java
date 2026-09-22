@@ -1,12 +1,11 @@
 package com.ibm.tcs.RTP.Method.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.ibm.tcs.RTP.Method.service.MetaService;
 import com.ibm.tcs.RTP.Method.service.ResourceService;
 import com.ibm.tcs.RTP.Method.service.RtpService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -26,7 +25,14 @@ public class SongController {
     @GetMapping("/api/song/play")
     public String playSong(@RequestParam String countryCode) {
         resourceService.playResourceSong(countryCode);
-        return "Playing song for country code: " + countryCode;
+        return "Call connected - playing song for country code: " + countryCode;
+    }
+
+    // NAYA ENDPOINT: call cut hone pe ye hit karo
+    @GetMapping("/api/song/stop")
+    public String stopSong() {
+        resourceService.stopSong();
+        return "Call disconnected - song stopped.";
     }
 
     @GetMapping("/api/song/meta")
