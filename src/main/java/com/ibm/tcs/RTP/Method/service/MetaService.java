@@ -2,8 +2,6 @@ package com.ibm.tcs.RTP.Method.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ibm.tcs.RTP.Method.repository.CountryRepository;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,21 +16,16 @@ import java.util.Map;
 public class MetaService {
 
     private final ResourceService resourceService;
-    private final CountryRepository countryRepository;
 
-    public MetaService(ResourceService resourceService, CountryRepository countryRepository) {
+    public MetaService(ResourceService resourceService) {
         this.resourceService = resourceService;
-        this.countryRepository = countryRepository;
     }
 
     public Map<String, Object> metaMethod(String dialCode) {
-        String resolved = countryRepository.resolveDialCode(dialCode);
-        String path = countryRepository.getSongPath(resolved);
-
         Map<String, Object> meta = new HashMap<>();
         try (InputStream in = resourceService.resourceMethod(dialCode)) {
             if (in == null) {
-                System.out.println("[MetaService] No file found (even the default file is missing).");
+                System.out.println("[MetaService] No audio data found.");
                 return meta;
             }
             BufferedInputStream bufferedIn = new BufferedInputStream(in);
@@ -41,8 +34,7 @@ public class MetaService {
             long frames = audioIn.getFrameLength();
             double durationSeconds = (frames + 0.0) / format.getFrameRate();
 
-            meta.put("dialCode", resolved);
-            meta.put("songFile", path);
+            meta.put("dialCode", dialCode);
             meta.put("sampleRate", format.getSampleRate());
             meta.put("channels", format.getChannels());
             meta.put("bitDepth", format.getSampleSizeInBits());

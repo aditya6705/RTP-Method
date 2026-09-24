@@ -78,7 +78,7 @@ public class RtpService {
         packet[4] = (byte) (timestamp >> 24);
         packet[5] = (byte) (timestamp >> 16);
         packet[6] = (byte) (timestamp >> 8);
-        packet[7] = (byte) timestamp;
+        packet[7] = (byte) timestamp; 
 
         int ssrc = 123456;
         packet[8] = (byte) (ssrc >> 24);

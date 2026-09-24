@@ -1,23 +1,29 @@
 package com.ibm.tcs.RTP.Method.entity;
 
-/**
- * Country
- * -------
- * Ek "Entity" (data blueprint) jo ek country ke dial code aur uske gaane ko represent karta hai.
- * Koi database nahi hai - ye sirf ek plain Java object (POJO) hai jo data ko structured
- * tarike se hold karta hai, HashMap ke raw String pairs ki jagah.
- */
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "countries")
 public class Country {
 
-    private String dialCode;   // jaise "+91"
-    private String songPath;   // jaise "audio/IN.wav"
+    @Id
+    @Column(name = "dial_code")
+    private String dialCode;
+
+    @Lob
+    @Column(name = "audio_data", columnDefinition = "LONGBLOB")
+    private byte[] audioData;
 
     public Country() {
     }
 
-    public Country(String dialCode, String songPath) {
+    public Country(String dialCode, byte[] audioData) {
         this.dialCode = dialCode;
-        this.songPath = songPath;
+        this.audioData = audioData;
     }
 
     public String getDialCode() {
@@ -28,16 +34,11 @@ public class Country {
         this.dialCode = dialCode;
     }
 
-    public String getSongPath() {
-        return songPath;
+    public byte[] getAudioData() {
+        return audioData;
     }
 
-    public void setSongPath(String songPath) {
-        this.songPath = songPath;
-    }
-
-    @Override
-    public String toString() {
-        return "Country{dialCode='" + dialCode + "', songPath='" + songPath + "'}";
+    public void setAudioData(byte[] audioData) {
+        this.audioData = audioData;
     }
 }
